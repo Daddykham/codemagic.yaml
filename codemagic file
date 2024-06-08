@@ -1,0 +1,244 @@
+---
+copyright: '©Nevercode Ltd | All Rights Reserved | Codemagic is pending trademark
+    of Nevercode Ltd.'
+params:
+    twitterShareHandle: codemagicio
+    facebookAuthorHandle: codemagicio
+    appLoginLink: https://codemagic.io/
+    backendURL: http://localhost:5000
+    landingURL: http://localhost:3000
+    appURL: http://localhost:3000
+    blogURL: http://localhost
+    defaultFacebookImage: /uploads/2019/01/default-thumb.png
+    defaultTwitterImage: /uploads/2019/02/twitter.png
+    headerLinkTitle: Documentation
+    locale: en_GB
+    googleTagManagerId: 'GTM-PFJ47PW'
+    pageRepoCommitPrefix: 'https://github.com/codemagic-ci-cd/codemagic-docs/commit/'
+    pageRepoEditPrefix: 'https://github.com/codemagic-ci-cd/codemagic-docs/edit/master/content/'
+    ignorefiles:
+        - /content/partials/*
+imaging:
+    resampleFilter: linear
+    quality: 90
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON
+buildDrafts: true
+defaultContentLanguage: en
+disable404: true
+enableGitInfo: true
+
+sectionPagesMenu: 'main'
+menu:
+    main:
+        - identifier: getting-started
+          name: Getting started
+          weight: 1
+
+        - identifier: yaml-quick-start
+          name: Quick start guides
+          weight: 2
+          params:
+              preference: 'yaml'
+
+        - identifier: yaml
+          name: Codemagic.yaml
+          weight: 3
+          params:
+              preference: 'yaml'
+
+        - identifier: yaml-basic-configuration
+          name: Basic configuration
+          parent: yaml
+          weight: 1
+        - identifier: yaml-running-builds
+          name: Running builds
+          parent: yaml
+          weight: 2
+        - identifier: yaml-testing
+          name: Testing
+          parent: yaml
+          weight: 3
+        - identifier: yaml-code-signing
+          name: Code signing
+          parent: yaml
+          weight: 4
+        - identifier: yaml-publishing
+          name: Publishing
+          parent: yaml
+          weight: 5
+        - identifier: yaml-notification
+          name: Notifications
+          parent: yaml
+          weight: 6
+
+        - identifier: integrations
+          name: Integrations
+          parent: yaml
+          weight: 7
+        - identifier: knowledge-base
+          name: Advanced configuration
+          weight: 8
+        - identifier: knowledge-git
+          name: Git
+          weight: 2
+          parent: knowledge-base
+        - identifier: knowledge-codemagic
+          name: Codemagic
+          weight: 1
+          parent: knowledge-base
+        - identifier: knowledge-firebase
+          name: Firebase
+          weight: 3
+          parent: knowledge-base
+        - identifier: knowledge-others
+          name: Various
+          weight: 4
+          parent: knowledge-base
+        - identifier: knowledge-white-label
+          name: White Label Apps
+          weight: 5
+          parent: knowledge-base
+
+
+
+        - identifier: flutter
+          name: Flutter workflow editor
+          weight: 3
+          params:
+              preference: 'flutter'
+
+        - identifier: flutter-configuration
+          name: Basic configuration
+          parent: flutter
+          weight: 1
+        - identifier: flutter-running-builds
+          name: Running builds
+          parent: flutter
+          weight: 2
+        - identifier: flutter-testing
+          name: Testing
+          parent: flutter
+          weight: 3
+        - identifier: flutter-code-signing
+          name: Code signing
+          parent: flutter
+          weight: 4
+        - identifier: flutter-publishing
+          name: Publishing
+          parent: flutter
+          weight: 5
+        - identifier: flutter-notification
+          name: Notifications
+          parent: flutter
+          weight: 6
+        
+ 
+
+        - identifier: variables
+          name: Environment variables
+          weight: 4
+          params:
+              hide: true
+        - identifier: encrypting
+          name: Encrypting sensitive data
+          parent: variables
+          params:
+              hide: true
+        - identifier: environment-variable-groups
+          name: Environment variable groups
+          parent: variables
+          params:
+              hide: true
+
+        - identifier: configuration
+          name: Advanced configuration
+          weight: 5
+          params:
+              hide: true
+
+        - identifier: knowledge-base
+          name: Knowledge base
+          weight: 6
+          params:
+              hide: true
+
+        - identifier: teams
+          name: Teams
+          weight: 7
+          params:
+              hide: true
+
+        - identifier: rest-api
+          name: Codemagic REST API
+          weight: 8
+
+        - identifier: billing
+          name: Billing & Pricing
+          weight: 10
+
+        - identifier: troubleshooting
+          name: Troubleshooting
+          weight: 9
+
+        - identifier: specs
+          name: Software and hardware
+          weight: 11
+
+        - identifier: custom-menu-position
+          params:
+              hide: true
+        - identifier: partials
+          params:
+              hide: true
+
+mediaTypes:
+    video/mp4:
+        suffixes:
+            - mp4
+
+title: Codemagic Docs
+disableKinds:
+    - taxonomy
+    - taxonomyTerm
+    - section
+
+deployment:
+    order:
+        - '.*\.jpe?g$'
+        - '.*\.gif$'
+        - '.*\.png$'
+        - '.*\.mp4$'
+        - '.*\.mov$'
+
+    targets:
+        - name: 'docs.codemagic.io'
+          URL: s3://docs.codemagic.io?region=us-east-1
+          cloudFrontDistributionID: EM3VDRI1IYP45
+
+    matchers:
+        # static assets are fingerprinted, cache them for 1 year
+        - pattern: '^.+\\.(js|css|svg|ttf|woff|woff2)$'
+          cacheControl: 'max-age=31536000, no-transform, public'
+          gzip: true
+        # content images are not fingerprinted yet, cache them for 1 week
+        - pattern: '^.+\\.(ico|pdf|jpg|JPG|jpeg|png|PNG|gif|GIF|mp4|mov|mkv)$'
+          cacheControl: 'max-age=604800, no-transform, public'
+          gzip: false
+        # main content
+        - pattern: '^.+\\.(html|xml|json)$'
+          gzip: true
+        # rss
+        - pattern: '^.+\\.xml$'
+          contentType: 'application/rss+xml; charset=utf-8'
+          gzip: true
+
+markup:
+    goldmark:
+        renderer:
+            unsafe: true
+    highlight:
+        style: github
